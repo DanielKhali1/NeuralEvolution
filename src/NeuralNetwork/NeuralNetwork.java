@@ -18,6 +18,10 @@ import NeuralNetwork.Mat.MatFunc;
  * (completely), and alter their functionality.
  * 
  * @author Hashim Kayani
+ * 
+ * used and modified by 
+ * @author Daniel Khalil
+ * 
  */
 public class NeuralNetwork implements Cloneable
 {
@@ -40,7 +44,7 @@ public class NeuralNetwork implements Cloneable
 	/**
 	 * The weights that each layer has
 	 */
-	public final Mat[] weights;
+	public Mat[] weights;
 	/**
 	 * The biases that each layer has
 	 */
@@ -49,6 +53,11 @@ public class NeuralNetwork implements Cloneable
 	 * This is beyond me and I suggest you google it
 	 */
 	private ActivationFunction activationFunction;
+	
+	
+	private int fitness;
+	
+	
 	/**
 	 * This is how big the learning steps of this network will be. If
 	 * too big, then the network might overshoot and fall further
@@ -194,6 +203,11 @@ public class NeuralNetwork implements Cloneable
 			// Reset target for next loop
 			target = weights[i - 1].transpose().mult(error).add(layers[i - 1]);
 		}
+	}
+	
+	public void setWeights(Mat[] weights)
+	{
+		this.weights = weights;
 	}
 	
 	public double getLearningRate()
@@ -373,5 +387,15 @@ public class NeuralNetwork implements Cloneable
 			this.function = function;
 			this.derivative = derivative;
 		}
+	}
+	
+	public void setFitness(int fit)
+	{
+		fitness = fit;
+	}
+	
+	public int getFitness()
+	{
+		return fitness;
 	}
 }

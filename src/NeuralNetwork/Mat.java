@@ -41,7 +41,7 @@ public class Mat implements Serializable, Cloneable
 	 * columns. This would be the same as a
 	 * <code>new double[rows][cols]</code>.
 	 */
-	public final double[][] data;
+	public double[][] data;
 	
 	/**
 	 * This creates a matrix with the rows and columns specified in

@@ -43,7 +43,7 @@ public class NeuralNetwork implements Cloneable {
 	/**
 	 * The weights that each layer has
 	 */
-	public Mat[] weights;
+	public final Mat[] weights;
 	/**
 	 * The biases that each layer has
 	 */
@@ -146,9 +146,6 @@ public class NeuralNetwork implements Cloneable {
 		return input.toArray();
 	}
 
-	public void setWeights(Mat[] weights) {
-		this.weights = weights;
-	}
 
 	public double getLearningRate() {
 		return learningRate;
@@ -198,7 +195,7 @@ public class NeuralNetwork implements Cloneable {
 			weights[i].map(new MatFunc() {
 				@Override
 				public double perform(double val, int r, int c) {
-					return rand.nextDouble() < chance ? val + (rand.nextDouble() * 2 - 1) / 10 : val;
+					return Math.random() < chance ? val + (Math.random() * 2 - 1) / 10: val;
 				}
 			});
 		}

@@ -51,13 +51,13 @@ public class Template
 	 * HOW LONG WILL YOU LAST?
 	 */
 	Person survivor = new Person("dumbbitch");
-	int[] topology = { 5, 20, 5 };
-	GA geneticAlgorithm = new GA(100, 0.05, topology);
+	int[] topology = { 5, 50, 5 };
+	GA geneticAlgorithm = new GA(100, 0.5, topology);
 
 	public static void main(String[] args)
 	{
 		Template t = new Template();
-		for(int generations = 0; generations < 100; generations++)
+		for(int generations = 0; generations < 50; generations++)
 		{
 			int[] fitnesses = new int[t.geneticAlgorithm.getPopulationSize()];
 			for(int i = 0; i < t.geneticAlgorithm.getPopulationSize(); i++)
@@ -65,7 +65,7 @@ public class Template
 				while(t.survivor.isAlive())
 				{
 					//will return array of outputs
-					double[] actionArray = t.geneticAlgorithm.getPopulation()[i].process(t.getInputs());
+					double[] actionArray = t.geneticAlgorithm.getPopulation()[i].process(t.getInputs(t.survivor));
 					System.out.println(Arrays.toString(actionArray));
 					int index = 0;
 					double biggestElement = 0;
@@ -129,13 +129,13 @@ public class Template
 	}
 	
 	
-	public double[] getInputs()
+	public double[] getInputs(Person survivor)
 	{
-		double[] inputs = { relu(survivor.getHydration()), relu(survivor.getEnergy()), relu(survivor.getSatiation()), relu(getNumOfHealthy()), relu(getNumOfPoisonous()) };
+		double[] inputs = { relu(survivor.getHydration()), relu(survivor.getEnergy()), relu(survivor.getSatiation()), relu(getNumOfHealthy(survivor)), relu(getNumOfPoisonous(survivor)) };
 		return inputs;
 	} 
 		
-	public int getNumOfPoisonous()
+	public int getNumOfPoisonous(Person survivor)
 	{
 		int sum = 0;
 		for(int i = 0; i < survivor.getInventorySize(); i++)
@@ -146,7 +146,7 @@ public class Template
 		return sum;
 	}
 	
-	public int getNumOfHealthy()
+	public int getNumOfHealthy(Person survivor)
 	{
 		int sum = 0;
 		for(int i = 0; i < survivor.getInventorySize(); i++)

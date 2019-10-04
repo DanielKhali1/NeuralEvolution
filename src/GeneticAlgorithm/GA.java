@@ -26,7 +26,7 @@ public class GA
 	{
 		for(int i = 0; i < populationSize; i++)
 		{
-			NeuralNetwork Individual = new NeuralNetwork(topology[0], topology[1], topology[2]);
+			NeuralNetwork Individual = new NeuralNetwork(topology[0], 2, topology[1], topology[2]);
 			getPopulation()[i] = Individual;
 		}
 	}
@@ -68,13 +68,13 @@ public class GA
 	
 	private NeuralNetwork Crossover(NeuralNetwork parent1, NeuralNetwork parent2) 
 	{
-		return parent1.Breed(parent2);
+		return parent1.clone().Breed(parent2.clone());
 		
 	}
 	
 	private NeuralNetwork Mutation(NeuralNetwork child) 
 	{
-		return child.mutateWeights(.1);
+		return child.clone().mutateWeights(mutationRate);
 	}
 
 	

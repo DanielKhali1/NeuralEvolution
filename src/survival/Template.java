@@ -50,14 +50,15 @@ public class Template
 	 * 
 	 * HOW LONG WILL YOU LAST?
 	 */
-	Person survivor = new Person("dumbbitch");
-	int[] topology = { 5, 50, 5 };
-	GA geneticAlgorithm = new GA(100, 0.5, topology);
+	Person survivor = new Person("dumbbitch", false);
+	int[] topology = { 7, 256, 5 };
+	int hiddenLayers = 2;
+	GA geneticAlgorithm = new GA(500, 0.5, topology, hiddenLayers);
 
 	public static void main(String[] args)
 	{
 		Template t = new Template();
-		for(int generations = 0; generations < 50; generations++)
+		for(int generations = 0; generations < 1000; generations++)
 		{
 			int[] fitnesses = new int[t.geneticAlgorithm.getPopulationSize()];
 			for(int i = 0; i < t.geneticAlgorithm.getPopulationSize(); i++)
@@ -66,7 +67,7 @@ public class Template
 				{
 					//will return array of outputs
 					double[] actionArray = t.geneticAlgorithm.getPopulation()[i].process(t.getInputs(t.survivor));
-					System.out.println(Arrays.toString(actionArray));
+					//System.out.println(Arrays.toString(actionArray));
 					int index = 0;
 					double biggestElement = 0;
 					for(int j = 0; j < actionArray.length; j++)
@@ -80,15 +81,15 @@ public class Template
 					
 					switch(index)
 					{
-						case 0: t.eatHealthyFood();
+						case 0: t.eatHealthyFood(); System.out.print("e");
 							break;
-						case 1: t.survivor.rest();
+						case 1: t.survivor.rest();System.out.print("r");
 							break;
-						case 2:  t.survivor.drink();
+						case 2:  t.survivor.hunt();System.out.print("h");
 							break;
-						case 3:  t.survivor.hunt();
+						case 3:  t.survivor.drink();System.out.print("d");
 							break;
-						case 4:  t.DiscardUnhealthyFood();
+						case 4:  t.DiscardUnhealthyFood();System.out.print("D");
 							break;
 					}
 					
@@ -96,11 +97,14 @@ public class Template
 					t.survivor.nextDay();
 				}
 				fitnesses[i] = t.survivor.getDaysSurvived();
-				t.survivor = new Person("dumb bitch" + t.geneticAlgorithm.getGeneration());
-
+				System.out.println("");
+				t.survivor = new Person("dumb bitch" + t.geneticAlgorithm.getGeneration(), false);
+				
 			}
-			System.out.println(Arrays.toString(fitnesses));
+			//System.out.println(Arrays.toString(fitnesses));
 			t.geneticAlgorithm.Eval(fitnesses);
+			System.out.println("Generation " + t.geneticAlgorithm.getGeneration()+": " + t.geneticAlgorithm.bestChromosomeFitness() + " Days" );
+
 			t.geneticAlgorithm.Evolve();
 		}
 
@@ -110,7 +114,7 @@ public class Template
 	{
 		for(int i = 0; i < survivor.getInventorySize(); i++)
 		{
-			if(survivor.getInventory()[i])
+			if(survivor.isHealthyFood(i))
 			{
 				survivor.eat(i);
 			}
@@ -121,7 +125,7 @@ public class Template
 	{
 		for(int i = 0; i < survivor.getInventorySize(); i++)
 		{
-			if(survivor.getInventory()[i])
+			if(survivor.isPoisonousFood(i))
 			{
 				survivor.discardFood(i);
 			}
@@ -131,7 +135,7 @@ public class Template
 	
 	public double[] getInputs(Person survivor)
 	{
-		double[] inputs = { relu(survivor.getHydration()), relu(survivor.getEnergy()), relu(survivor.getSatiation()), relu(getNumOfHealthy(survivor)), relu(getNumOfPoisonous(survivor)) };
+		double[] inputs = { relu(survivor.getHydration()), relu(survivor.getEnergy()), relu(survivor.getSatiation()), relu(survivor.getInventorySize()), relu(survivor.getRemainingInventorySpace()), relu(getNumOfHealthy(survivor)), relu(getNumOfPoisonous(survivor)) };
 		return inputs;
 	} 
 		

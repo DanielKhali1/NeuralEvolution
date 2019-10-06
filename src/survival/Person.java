@@ -88,16 +88,16 @@ public class Person
 		
 		daysSurvived++;
 		actionTaken = false;
-		System.out.println(name + "'s Satiation: " + getSatiation() + "%\tHydration: " + getHydration() + "%\tEnergy: " + getEnergy() + "%\tInventory Size: " + getInventorySize() + " / " + getMaxInventorySize());
-		System.out.print("Inventory: [");
+//		System.out.println(name + "'s Satiation: " + getSatiation() + "%\tHydration: " + getHydration() + "%\tEnergy: " + getEnergy() + "%\tInventory Size: " + getInventorySize() + " / " + getMaxInventorySize());
+//		System.out.print("Inventory: [");
 		for(int i = 0; i < getInventorySize(); i++)
 		{
-			System.out.print(isHealthyFood(i) ? "Food" : "Poison");
+//			System.out.print(isHealthyFood(i) ? "Food" : "Poison");
 			
-			if(i != getInventorySize() - 1)
-				System.out.print(", ");
+//			if(i != getInventorySize() - 1)
+//				System.out.print(", ");
 		}
-		System.out.println("]\n");
+//		System.out.println("]\n");
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class Person
 		}
 		
 		actionTaken = true;
-		System.out.println(name + " is discarding " + (isHealthyFood(inventoryIndex)?"healthy food." : "poisonous food."));
+//		System.out.println(name + " is discarding " + (isHealthyFood(inventoryIndex)?"healthy food." : "poisonous food."));
 		inventory.remove(inventoryIndex);
 	}
 	
@@ -160,7 +160,7 @@ public class Person
 		}
 		
 		actionTaken = true;
-		System.out.println(name + " is eating.");
+//		System.out.println(name + " is eating.");
 		boolean isHealthy = isHealthyFood(inventoryIndex);
 		if(isHealthy)
 		{
@@ -193,7 +193,7 @@ public class Person
 		actionTaken = true;
 		hydration = Math.min(100, hydration + 13);
 		energy = Math.max(0, energy - 1);
-		System.out.println(name + " is drinking.");
+//		System.out.println(name + " is drinking.");
 	}
 	
 	/**
@@ -213,7 +213,7 @@ public class Person
 		
 		actionTaken = true;
 		energy = Math.min(100, energy + 11);
-		System.out.println(name + " is resting.");
+//		System.out.println(name + " is resting.");
 	}
 	
 	/**
@@ -259,10 +259,10 @@ public class Person
 		}
 		huntGainString += "]";
 		energy = Math.max(0, energy - 20);
-		if(huntGainCount == 0)
-			System.out.println(name + " is hunting. Found no items.");
-		else
-			System.out.println(name + " is hunting. Found " + huntGainCount + " items of which are: " + huntGainString + ".");
+//		if(huntGainCount == 0)
+//			System.out.println(name + " is hunting. Found no items.");
+//		else
+//			System.out.println(name + " is hunting. Found " + huntGainCount + " items of which are: " + huntGainString + ".");
 	}
 	
 	/**
@@ -326,19 +326,19 @@ public class Person
 	{
 		if(energy <= 0)
 		{
-			if(print) System.out.println(name + " died of delirious hallucination at day " + daysSurvived + ".");
+//			if(print) System.out.println(name + " died of delirious hallucination at day " + daysSurvived + ".");
 			return false;
 		}
 		
 		if(satiation <= 0)
 		{
-			if(print) System.out.println(name + " died of starvation at day " + daysSurvived + ".");
+//			if(print) System.out.println(name + " died of starvation at day " + daysSurvived + ".");
 			return false;
 		}
 		
 		if(hydration <= 0)
 		{
-			if(print) System.out.println(name + " died of dehydration at day " + daysSurvived + ".");
+//			if(print) System.out.println(name + " died of dehydration at day " + daysSurvived + ".");
 			return false;
 		}
 		

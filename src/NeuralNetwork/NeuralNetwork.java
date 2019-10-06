@@ -140,7 +140,7 @@ public class NeuralNetwork implements Cloneable {
 		Mat input = Mat.fromArray(inputArray);
 
 		for (int i = 1; i < hiddenLayers + 2; i++) {
-			input = weights[i - 1].mult(input).add(biases[i - 1]).map(activationFunction.function);
+			input = weights[i - 1].mult(input).add(biases[i-1]).map(activationFunction.function);
 		}
 
 		return input.toArray();
@@ -195,7 +195,11 @@ public class NeuralNetwork implements Cloneable {
 			weights[i].map(new MatFunc() {
 				@Override
 				public double perform(double val, int r, int c) {
-					return Math.random() < chance ? val + (Math.random() * 2 - 1) / 10: val;
+					if(Math.random() < chance)
+					{
+						val = (Math.random() * 2 - 1) / 10;
+					}
+					return val;
 				}
 			});
 		}

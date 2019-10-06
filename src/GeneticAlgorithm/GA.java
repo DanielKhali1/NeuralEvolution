@@ -11,22 +11,22 @@ public class GA
 	private NeuralNetwork[] population;
 	private int[] topology;
 	
-	public GA(int PopulationSize, double MutiationRate, int[] topology)
+	public GA(int PopulationSize, double MutiationRate, int[] topology, int hiddenLayers)
 	{
 		this.setPopulationSize(PopulationSize);
 		this.mutationRate =(MutiationRate);
 		this.generation = (1);
 		this.topology = topology;
 		population = new NeuralNetwork[PopulationSize];
-		generateRandomPopulation();
+		generateRandomPopulation(hiddenLayers);
 		
 	}
 	
-	private void generateRandomPopulation() 
+	private void generateRandomPopulation(int hiddenLayers) 
 	{
 		for(int i = 0; i < populationSize; i++)
 		{
-			NeuralNetwork Individual = new NeuralNetwork(topology[0], 2, topology[1], topology[2]);
+			NeuralNetwork Individual = new NeuralNetwork(topology[0], hiddenLayers, topology[1], topology[2]);
 			getPopulation()[i] = Individual;
 		}
 	}
@@ -42,8 +42,10 @@ public class GA
 	public void Evolve()
 	{
 		 NeuralNetwork[] newPopulation = new NeuralNetwork[getPopulation().length];
-		
-		for(int i = 0; i < getPopulationSize(); i++)
+		 
+		 newPopulation[0] = bestChromosome();
+		 
+		for(int i = 1; i < getPopulationSize(); i++)
 		{
 			NeuralNetwork Parent1 = SelectParent();
 			NeuralNetwork Parent2 = SelectParent();
@@ -74,7 +76,9 @@ public class GA
 	
 	private NeuralNetwork Mutation(NeuralNetwork child) 
 	{
-		return child.clone().mutateWeights(mutationRate);
+		NeuralNetwork x = child.clone().mutateWeights(mutationRate);
+		return x;
+		
 	}
 
 	
@@ -102,6 +106,34 @@ public class GA
 
 	public void setPopulation(NeuralNetwork[] population) {
 		this.population = population;
+	}
+
+	public int bestChromosomeFitness() 
+	{
+		int bestFit = 0;
+		for(int i = 0; i < population.length; i++)
+		{
+			if(population[i].getFitness() > bestFit)
+			{
+				bestFit = population[i].getFitness();
+			}
+		}
+		return bestFit;
+	}
+	
+	public NeuralNetwork bestChromosome() 
+	{
+		int bestFit = 0;
+		NeuralNetwork best = population[0];
+		for(int i = 0; i < population.length; i++)
+		{
+			if(population[i].getFitness() > bestFit)
+			{
+				bestFit = population[i].getFitness();
+				best = population[i];
+			}
+		}
+		return best.clone();
 	}
 	
 }
